@@ -1,6 +1,38 @@
+
+// Colors
+
 $bluewood: #2c3e50;
 $cream: #EFC958;
 $white: #fff;
 $blueocean: #4AB19D;
 $amared: #EF3D59;
 $damask: #E17A47;
+
+
+// Limit
+%limit{
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2rem;
+}
+
+
+// Titles
+%h2{
+    display: block;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+// Icons
+%icon{
+    display: inline-block;
+    width: 0.8em;
+    height: 0.8em;
+
+    svg{
+        max-width: 100%;
+    }
+}

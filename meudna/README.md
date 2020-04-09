@@ -17,3 +17,9 @@ npm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+
+https://coronavirus-tracker-api.herokuapp.com/v2/locations?country_code=BR
+
+https://www.quantoscasosdecoronavirus.com.br/
