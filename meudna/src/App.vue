@@ -5,11 +5,11 @@
         <HomeTitle :hat='"Casos confirmados de"' :title='"Coronavírus"' :subtitle='"no Brasil"' />
         <div class="content">
           <div class="content__row">
-            <Case :number="14000" :legend="'CASOS CONFIRMADOS'" :color="'yellow'" />
+            <Case :number="cases.confirmed" :legend="'CASOS CONFIRMADOS'" :color="'yellow'" />
           </div>
           <div class="content__row">
-            <Case :number="700" :legend="'MORTES CONFIRMADAS'" :color="'red'" />
-            <Case :number="0" :legend="'CASOS RECUPERADOS'" :color="'blue'" />
+            <Case :number="cases.deaths" :legend="'MORTES CONFIRMADAS'" :color="'red'" />
+            <Case :number="cases.recovered" :legend="'CASOS RECUPERADOS'" :color="'blue'" />
           </div>
           <div class="content__row">
             <Update :title="'Atualizado há'" :date="update.date" :alert="update.alert" :compact="true" />
@@ -75,19 +75,29 @@ export default {
         ]
       },
       update: {
-        date: 0,
+        date: null,
         alert: 'Os dados são atualizados de hora em hora.'
       },
+      cases: {
+        confirmed: null,
+        deaths: null,
+        recovered: null,
+      }
     }
   },
   created: function(){
     var app = this;
-    app.get_cases().then( async( result ) => {
-      app.update.date = new Date().getTime();
-      console.log( app.update.date );
-      console.log( result );
-    });
 
+    app.get_cases().then( async( result ) => {
+
+      if( result.locations ){
+        app.set_update_date( result.locations[0].last_updated );
+      };
+
+      if( result.latest ){
+        app.set_cases( String( result.latest.confirmed ) , String( result.latest.deaths ) , String( result.latest.recovered ) );
+      }
+    });
   },
   methods: {
       async get_cases(){
@@ -103,6 +113,24 @@ export default {
 
         return await result
     },
+    set_update_date( last_update ){
+      if( last_update ){
+        this.update.date = new Date( last_update ).getTime();
+      }else{
+        this.update.date = 0;
+      }
+    },
+    set_cases( confirmed , deaths , recovered ){
+      if( confirmed ){
+        this.cases.confirmed = confirmed
+      }
+      if( deaths ){
+        this.cases.deaths = deaths
+      }
+      if( recovered ){
+        this.cases.recovered = recovered
+      }
+    }
   },
   components: {
     Footer,

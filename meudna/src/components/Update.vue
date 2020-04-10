@@ -3,7 +3,7 @@
     <template v-if="compact">
       <h2 class="update__title"> {{ title }} </h2>
       <time class="update__date" datetime="2008-02-14 20:00">
-          {{ date }}
+          {{ last_updated }}
       </time>
     </template>
     <template v-else>
@@ -37,7 +37,6 @@ export default {
     },
     date: {
       type: Number,
-      required: true
     },
     alert: {
       type: String,
@@ -48,7 +47,12 @@ computed: {
       var _date = new Date( this.date );
 
       return `${("0" + _date.getDate()).slice(-2)}/${("0" + (_date.getMonth() + 1)).slice(-2)}/${_date.getFullYear()} às ${("0" + _date.getHours()).slice(-2)}:${("0" + _date.getMinutes()).slice(-2)}:${("0" + _date.getSeconds()).slice(-2)}`;
-    }
+    },
+    last_updated: function () {
+      var _now = new Date().getTime();
+
+      return `${ Math.round( ( _now - this.date ) / 60000 ) } minutos`
+    },
   }
 }
 </script>
@@ -84,6 +88,7 @@ computed: {
   }
   
   .update__date{
+    font-weight: 500;
     color: $cream;
     margin-bottom: 0;
   }
